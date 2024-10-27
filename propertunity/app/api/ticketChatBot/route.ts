@@ -12,6 +12,7 @@ interface TicketData {
     description: string;
     priority: number;
     date: string;
+    category: string;
 }
 
 let data: (string | TicketData)[] = [];
