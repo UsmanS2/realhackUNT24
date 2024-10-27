@@ -49,7 +49,9 @@ const CategoryCard = ({
       onClick={onClick}
       className={`${nobg ? "" : "bg-white"} ${
         nobg ? "" : "shadow-lg"
-      } p-6 rounded-lg text-center `}
+      } p-6 rounded-lg text-center ${
+        nobg ? "" : "hover:shadow-md"
+      } hover:cursor-pointer`}
     >
       <p className='font-semibold text-black text-xl'>{title}</p>
       <div className='flex flex-col items-center'>

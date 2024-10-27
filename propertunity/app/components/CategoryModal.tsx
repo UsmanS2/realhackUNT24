@@ -136,7 +136,9 @@ const CategoryModal: React.FC<CategoryModalProps> = ({ title, onClose }) => {
     <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
       <div className='relative bg-white rounded-lg p-8 w-3/4 max-w-6xl shadow-lg flex'>
         <div className='w-1/2 pr-6 overflow-y-auto max-h-[500px]'>
-          <h2 className='text-xl font-bold mb-4'>{title} - Active Tickets</h2>
+          <h2 className='text-xl font-bold mb-4'>
+            {title.toUpperCase()} - Active Tickets
+          </h2>
           {tickets
             .filter((ticket) => ticket.category === title)
             .map((ticket, idx) => (
@@ -153,7 +155,10 @@ const CategoryModal: React.FC<CategoryModalProps> = ({ title, onClose }) => {
                 </p>
                 <div>
                   <button
-                    onClick={() => deleteTicket(ticket._id)}
+                    onClick={() => {
+                      deleteTicket(ticket._id);
+                      onClose();
+                    }}
                     className='absolute bg-red-500 text-white px-4 py-2 rounded-lg right-0 top-5'
                   >
                     Close

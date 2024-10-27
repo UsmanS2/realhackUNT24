@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { PlusIcon } from "@heroicons/react/24/solid";
+import { LightBulbIcon, PlusIcon } from "@heroicons/react/24/solid";
 import CategoryCard from "@/app/components/CategoryCard";
 import CategoryModal from "@/app/components/CategoryModal";
 import {
@@ -120,8 +120,9 @@ const Dashboard: React.FC = () => {
                 Overall Health Score
               </p>
             </div>
-            <div className='flex flex-col w-1/2  h-full'>
-              <p className='text-center my-6 mb-10 text-lg font-semibold'>
+            <div className='flex flex-col w-1/2 items-center h-full'>
+              <p className='text-center my-6 mb-10 text-lg font-semibold flex-row flex justify-center items-center gap-3'>
+                <LightBulbIcon className='size-6 text-yellow-400 ' />
                 SUGGESTIONS
               </p>
               <div className='grid grid-cols-2 gap-6'>
@@ -163,7 +164,10 @@ const Dashboard: React.FC = () => {
                     title={category.title}
                     score={category.score}
                     onClick={() =>
-                      handleCategoryClick(category.title, category.score)
+                      handleCategoryClick(
+                        category.title.toLowerCase(),
+                        category.score
+                      )
                     }
                   />
                 ))}
@@ -175,7 +179,10 @@ const Dashboard: React.FC = () => {
                     title={category.title}
                     score={category.score}
                     onClick={() =>
-                      handleCategoryClick(category.title, category.score)
+                      handleCategoryClick(
+                        category.title.toLowerCase(),
+                        category.score
+                      )
                     }
                   />
                 ))}
