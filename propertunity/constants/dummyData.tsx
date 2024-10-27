@@ -1,59 +1,71 @@
-export const dummyTickets = [
-  {
-    title: 'Fix HVAC System',
-    message: 'The HVAC system is malfunctioning and needs repair.',
-    worker_assignment: 'John Doe',
-    danger_level: 'High',
-    ticket_date: '2024-10-01',
-    ticket_progress: 'In Progress',
-    image: 'https://example.com/hvac.png',
-    cost: 5000,
-    opportunity_cost: 2000,
-  },
-  {
-    title: 'Water Leak in Plumbing',
-    message: 'There is a major water leak that needs immediate attention.',
-    worker_assignment: 'Jane Smith',
-    danger_level: 'Critical',
-    ticket_date: '2024-10-02',
-    ticket_progress: 'Not Started',
-    image: 'https://example.com/plumbing.png',
-    cost: 3000,
-    opportunity_cost: 1500,
-  },
-  {
-    title: 'Electrical Issue in Building 2',
-    message: 'The lights are flickering in the second floor of Building 2.',
-    worker_assignment: 'Paul Anderson',
-    danger_level: 'Medium',
-    ticket_date: '2024-10-03',
-    ticket_progress: 'Completed',
-    image: 'https://example.com/electrical.png',
-    cost: 2000,
-    opportunity_cost: 1000,
-  },
-];
-
-export const dummySuggestions = [
+export const aiSuggestions = [
   {
     id: 1,
     suggestion:
-      'Ensure all air conditioning units are functioning properly and schedule any necessary maintenance.',
-    priority: 'High',
-    icon: '🔥',
+      "Ensure all air conditioning units are functioning properly and schedule any necessary maintenance.",
+    priority: "High",
   },
   {
     id: 2,
     suggestion:
-      'Provide tenants with tips on energy-efficient ways to keep their units cool without overusing AC.',
-    priority: 'Medium',
-    icon: '🌬️',
+      "Provide tenants with tips on energy-efficient ways to keep their units cool without overusing AC.",
+    priority: "Medium",
   },
   {
     id: 3,
     suggestion:
-      'Inspect insulation in common areas and units to ensure they are maintaining cool air efficiently.',
-    priority: 'High',
-    icon: '🏠',
+      "Inspect insulation in common areas and units to ensure they are maintaining cool air efficiently.",
+    priority: "High",
   },
+  {
+    id: 4,
+    suggestion:
+      "Inspect insulation in common areas and units to ensure they are maintaining cool air efficiently.",
+    priority: "High",
+  },
+];
+
+export const aiSuggestions2 = [
+  {
+    id: 1,
+    suggestion:
+      "Check and ensure all heating systems are working efficiently and schedule any necessary repairs or maintenance.",
+    priority: "High",
+  },
+  {
+    id: 2,
+    suggestion:
+      "Seal windows and doors to prevent heat loss, and advise tenants on how to reduce drafts in their units.",
+    priority: "Medium",
+  },
+  {
+    id: 3,
+    suggestion:
+      "Provide tenants with energy-saving tips on how to maintain warmth in their units while minimizing heating costs.",
+    priority: "Medium",
+  },
+  {
+    id: 4,
+    suggestion:
+      "Inspect building insulation and weather stripping to ensure optimal heat retention in common areas and units.",
+    priority: "High",
+  },
+];
+
+export const categoryScores = [
+  { title: "Plumbing", score: 80 },
+  { title: "Electrical", score: 86 },
+  { title: "Carpentry", score: 60 },
+  { title: "HVAC", score: 86 },
+  { title: "Appliances", score: 76 },
+  { title: "Space Optimization", score: 26 },
+];
+
+export const categoryScores2 = [
+  { title: "Plumbing", score: 20 },
+  { title: "Electrical", score: 66 },
+  { title: "Carpentry", score: 30 },
+  { title: "HVAC", score: 46 },
+  { title: "Appliances", score: 56 },
+  { title: "Space Optimization", score: 76 },
 ];

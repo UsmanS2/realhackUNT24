@@ -8,6 +8,7 @@ import {
   TicketIcon,
   ChatBubbleOvalLeftEllipsisIcon,
 } from "@heroicons/react/24/solid";
+import { useRouter } from "next/navigation";
 
 interface Ticket {
   _id: string;
@@ -20,6 +21,7 @@ interface Ticket {
   progress: number;
   image: string;
   cost: number;
+  category: string;
   opp_cost: number;
 }
 
@@ -31,6 +33,7 @@ const Home: React.FC = () => {
     { sender: string; text: string }[]
   >([]);
   const chatRef = useRef<HTMLDivElement>(null);
+  const navigate = useRouter();
 
   const handleIconClick = (icon: string) => {
     setSelectedIcon(icon);
@@ -43,6 +46,18 @@ const Home: React.FC = () => {
     };
     fetchAndSetTickets();
   }, []);
+
+  async function deleteTickets(id: string) {
+    const response = await fetch("/api/deleteTicket", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    return data.tickets;
+  }
 
   async function fetchTickets() {
     const response = await fetch("/api/getTickets", {
@@ -92,14 +107,25 @@ const Home: React.FC = () => {
 
   return (
     <main className='w-screen h-screen flex flex-col overflow-y-hidden'>
-      <header className='w-screen text-2xl font-black bg-primary p-6 text-white flex flex-row justify-between'>
-        <p>Propertunity</p>
+      <header className='w-full bg-primary p-6 text-white flex justify-between items-center'>
+        <p className='text-2xl font-black'>Propertunity</p>
 
-        <div
-          onClick={async () => await sendMessageToChatBot("YOO")}
-          className='flex flex-row space-x-4'
-        ></div>
+        <div className='flex items-center space-x-4'>
+          <p className='text-lg font-medium'>Hello, Customer!</p>
+          <img
+            src='https://via.placeholder.com/40'
+            alt='User Profile'
+            className='w-10 h-10 rounded-full object-cover'
+          />
+          <button
+            className='bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-all duration-300'
+            onClick={() => navigate.push("/")}
+          >
+            Logout
+          </button>
+        </div>
       </header>
+
       <section className='w-screen h-screen flex flex-row'>
         <div className='h-full bg-gray-200 w-1/12 flex flex-col justify-center items-center cursor-pointer'>
           <div

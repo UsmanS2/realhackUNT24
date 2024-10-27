@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Propertunity
 
-## Getting Started
+Propertunity is an AI-powered property management solution that helps managers prioritize maintenance tasks, predict future needs, and provide tenants with real-time communication.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Dashboard Routing:** Automatic routing to PM/Tenant dashboards.
+- **Maintenance Prediction:** Uses ML to forecast maintenance needs.
+- **Cost Analysis:** Provides opportunity cost forecasts to help prioritize tasks.
+- **Tenant Interface:** Streamlined ticket submission and tracking.
+- **AI Chatbot:** Automates ticket creation 24/7 using Gemini AI.
+- **Twilio Integration:** Enables tenants to communicate via SMS.
+
+## Tech Stack
+
+- **Frontend:** React with TypeScript
+- **Backend:** MongoDB, Next.js, Gemini AI, Twilio API
+- **Auth:** Auth0
+
+## Setup Instructions
+
+1. Clone the repo:
+
+   ```bash
+   gh repo clone UsmanS2/realhackUNT24
+   cd propertunity
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Set up `next.config.ts`:
+
+   ```bash
+   MONGO_URL=your-mongodb-url
+   GEMINI_APIKEY=your-gemini-api-key
+   TWILIO_ACCOUNT_SID=your-twilio-account-sid
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Future Improvements
+
+- Enhance AI predictions with real-world data.
+- Expand system integration for broader support.
+
+---
+
+Built with ❤️ by the Propertunity team.
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```

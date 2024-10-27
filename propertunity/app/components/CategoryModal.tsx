@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import {
   BarElement,
   CategoryScale,
@@ -11,7 +12,6 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
-// Register the chart components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -27,104 +27,148 @@ interface CategoryModalProps {
   onClose: () => void;
 }
 
-const dummyTickets = [
-  {
-    title: "Fix HVAC System",
-    worker_assignment: "John Doe",
-    ticket_progress: "In Progress",
-    cost: 5000,
-    opportunity_cost: 2000,
-  },
-  {
-    title: "Water Leak in Plumbing",
-    worker_assignment: "Jane Smith",
-    ticket_progress: "Not Started",
-    cost: 3000,
-    opportunity_cost: 1500,
-  },
-  {
-    title: "Electrical Issue in Building 2",
-    worker_assignment: "Paul Anderson",
-    ticket_progress: "Completed",
-    cost: 2000,
-    opportunity_cost: 1000,
-  },
-  {
-    title: "Electrical Issue in Building 2",
-    worker_assignment: "Paul Anderson",
-    ticket_progress: "Completed",
-    cost: 2000,
-    opportunity_cost: 1000,
-  },
-  {
-    title: "Electrical Issue in Building 2",
-    worker_assignment: "Paul Anderson",
-    ticket_progress: "Completed",
-    cost: 2000,
-    opportunity_cost: 1000,
-  },
-  {
-    title: "Electrical Issue in Building 2",
-    worker_assignment: "Paul Anderson",
-    ticket_progress: "Completed",
-    cost: 2000,
-    opportunity_cost: 1000,
-  },
-];
-
-const CategoryModal: React.FC<CategoryModalProps> = ({
-  title,
-  score,
-  onClose,
-}) => {
+interface Ticket {
+  _id: string;
+  title: string;
+  message: string;
+  assignment: string;
+  danger_level: number;
+  date: string;
+  issue_date: string;
+  progress: number;
+  image: string;
+  cost: number;
+  category: string;
+  opp_cost: number;
+}
+const CategoryModal: React.FC<CategoryModalProps> = ({ title, onClose }) => {
   const [showOpportunityCost, setShowOpportunityCost] = useState(false);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
 
-  // Calculate the total costs
-  const totalCost = dummyTickets.reduce((acc, ticket) => acc + ticket.cost, 0);
-  const totalOppCost = dummyTickets.reduce(
-    (acc, ticket) => acc + ticket.opportunity_cost,
-    0
-  );
+  useEffect(() => {
+    fetchAndSetTickets();
+  }, []);
 
-  const toggleCost = () => {
-    setShowOpportunityCost(!showOpportunityCost);
+  const fetchAndSetTickets = async () => {
+    const fetchedTickets = await fetchTickets();
+    setTickets(fetchedTickets);
   };
 
-  // Chart Data
+  async function fetchTickets() {
+    const response = await fetch("/api/getTickets", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    return data.tickets;
+  }
+
+  const totalCost = tickets
+    ?.filter((ticket) => ticket.category === title)
+    .reduce((acc, ticket) => acc + ticket.cost, 0);
+  const totalOppCost = tickets
+    ?.filter((ticket) => ticket.category === title)
+    .reduce((acc, ticket) => acc + ticket.opp_cost, 0);
+
+  const prevQuarterCost = totalCost * 1.2;
+  const forecastCost = totalCost * 1.8;
+
+  const prevQuarterOppCost = totalOppCost * 0.7;
+  const forecastOppCost = totalOppCost * 2.8;
+
+  const toggleCost = () => setShowOpportunityCost(!showOpportunityCost);
+
   const chartData = {
-    labels: ["Total Cost"],
+    labels: ["Previous Quarter", "Current Total", "Forecast"],
     datasets: [
       {
         label: showOpportunityCost ? "Opportunity Cost" : "Total Cost",
-        data: [showOpportunityCost ? totalOppCost : totalCost],
-        backgroundColor: showOpportunityCost ? "#facc15" : "#4ade80",
+        data: showOpportunityCost
+          ? [prevQuarterOppCost, totalOppCost, forecastOppCost]
+          : [prevQuarterCost, totalCost, forecastCost],
+        backgroundColor: showOpportunityCost
+          ? ["#facc15", "#facc15", "transparent"]
+          : ["#4ade80", "#4ade80", "transparent"],
+        borderColor: showOpportunityCost
+          ? ["#facc15", "#facc15", "#facc15"]
+          : ["#4ade80", "#4ade80", "#4ade80"],
+        borderWidth: [0, 0, 2],
+        hoverBackgroundColor: showOpportunityCost
+          ? ["#facc15", "#facc15", "transparent"]
+          : ["#4ade80", "#4ade80", "transparent"],
+        hoverBorderColor: showOpportunityCost
+          ? ["#facc15", "#facc15", "#facc15"]
+          : ["#4ade80", "#4ade80", "#4ade80"],
       },
     ],
   };
 
+  const chartOptions = {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+
+  async function deleteTicket(id: string) {
+    const response = await fetch("/api/deleteTicket", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    if (!response.ok) {
+      console.error("Failed to delete ticket");
+      return;
+    }
+
+    const data = await response.json();
+  }
+
   return (
     <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
       <div className='relative bg-white rounded-lg p-8 w-3/4 max-w-6xl shadow-lg flex'>
-        {/* Tickets Section */}
         <div className='w-1/2 pr-6 overflow-y-auto max-h-[500px]'>
           <h2 className='text-xl font-bold mb-4'>{title} - Active Tickets</h2>
-          {dummyTickets.map((ticket, idx) => (
-            <div key={idx} className='mb-4 border-b pb-4'>
-              <h3 className='font-bold'>{ticket.title}</h3>
-              <p>Assigned to: {ticket.worker_assignment}</p>
-              <p>Progress: {ticket.ticket_progress}</p>
-            </div>
-          ))}
+          {tickets
+            .filter((ticket) => ticket.category === title)
+            .map((ticket, idx) => (
+              <div key={idx} className='mb-4 border-b pb-4 relative'>
+                <h3 className='font-bold'>{ticket.title}</h3>
+                <p>Assigned to: {ticket.assignment}</p>
+                <p>
+                  Progress:{" "}
+                  {ticket.progress === 2
+                    ? "Completed"
+                    : ticket.progress === 1
+                    ? "In Progress"
+                    : "Not Started"}
+                </p>
+                <div>
+                  <button
+                    onClick={() => deleteTicket(ticket._id)}
+                    className='absolute bg-red-500 text-white px-4 py-2 rounded-lg right-0 top-5'
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            ))}
         </div>
 
-        {/* Graph Section */}
         <div className='w-1/2 pl-6'>
           <h2 className='text-xl font-bold mb-4'>Costs Overview</h2>
           <div className='mb-6'>
-            <Bar data={chartData} options={{ responsive: true }} />
+            <Bar data={chartData} options={chartOptions} />
           </div>
 
-          {/* Toggle Button for Opportunity Cost */}
           <div className='flex justify-between items-center mb-4'>
             <button
               onClick={toggleCost}
@@ -137,7 +181,6 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
           </div>
         </div>
 
-        {/* Close Button */}
         <button
           onClick={onClose}
           className='absolute right-3 top-3 text-white font-bold text-xl px-4 py-2 bg-red-600 rounded-full'

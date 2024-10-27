@@ -3,7 +3,6 @@ import React from "react";
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
-// Register the chart elements you need
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface CategoryCardProps {

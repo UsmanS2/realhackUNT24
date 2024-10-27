@@ -4,7 +4,13 @@ import React, { useEffect, useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import CategoryCard from "@/app/components/CategoryCard";
 import CategoryModal from "@/app/components/CategoryModal";
-import { dummySuggestions } from "@/constants/dummyData";
+import {
+  categoryScores,
+  categoryScores2,
+  aiSuggestions,
+  aiSuggestions2,
+} from "@/constants/dummyData";
+import { useRouter } from "next/navigation";
 
 const Dashboard: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<string>("building1");
@@ -14,25 +20,10 @@ const Dashboard: React.FC = () => {
     score: 0,
   });
 
+  const navigate = useRouter();
   const handleIconClick = (icon: string) => {
     setSelectedIcon(icon);
   };
-
-  const categoryScores = [
-    { title: "Plumbing", score: 80 },
-    { title: "Electrical", score: 86 },
-    { title: "Carpentry", score: 60 },
-    { title: "HVAC", score: 86 },
-    { title: "Appliances", score: 76 },
-  ];
-
-  const categoryScores2 = [
-    { title: "Plumbing", score: 20 },
-    { title: "Electrical", score: 66 },
-    { title: "Carpentry", score: 30 },
-    { title: "HVAC", score: 46 },
-    { title: "Appliances", score: 56 },
-  ];
 
   const handleCategoryClick = (
     categoryTitle: string,
@@ -61,14 +52,23 @@ const Dashboard: React.FC = () => {
 
   return (
     <main className='w-screen h-screen flex flex-col'>
-      {/* Header */}
-      <header className='w-screen text-2xl font-black bg-primary p-6 text-white flex flex-row justify-between'>
-        <p className=''>Propertunity</p>
-        <img
-          src='https://cdn.builder.io/api/v1/image/assets/TEMP/98803ebf9c6a020ec2109cd98dc700fdd46181390409afc05f9f9b33517df39b?placeholderIfAbsent=true&apiKey=d61eac4b8283404b9101a9dc30f948de'
-          alt='User icon'
-          className='object-contain shrink-0 aspect-square w-[25px]'
-        />
+      <header className='w-full bg-primary p-6 text-white flex justify-between items-center'>
+        <p className='text-2xl font-black'>Propertunity</p>
+
+        <div className='flex items-center space-x-4'>
+          <p className='text-lg font-medium'>Hello, Property Manager!</p>
+          <img
+            src='https://via.placeholder.com/40'
+            alt='User Profile'
+            className='w-10 h-10 rounded-full object-cover'
+          />
+          <button
+            className='bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-all duration-300'
+            onClick={() => navigate.push("/")}
+          >
+            Logout
+          </button>
+        </div>
       </header>
 
       <section className='w-full h-full flex overflow-y-hidden'>
@@ -77,7 +77,7 @@ const Dashboard: React.FC = () => {
           {["Building 1", "Building 2", "Building 3"].map((building, idx) => (
             <div
               key={idx}
-              className={`w-full flex items-center justify-center h-1/5 cursor-pointer ${
+              className={`w-full flex items-center justify-center h-1/5 cursor-pointer shadow-sm ${
                 selectedIcon === `building${idx + 1}`
                   ? "bg-primary text-white"
                   : "text-black"
@@ -99,24 +99,57 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className='w-10/12 h-full flex flex-col bg-gray-100 overflow-y-scroll pb-20'>
           <p className='text-lg font-semibold my-3 mx-6'>Home</p>
-          {/* Health Score Section */}
-          <div className='flex justify-evenly items-center space-x-4 bg-white shadow-lg mx-6'>
-            <CategoryCard nobg={true} title='Building' score={mainScore} />
+          <div className='flex flex-col lg:flex-row justify-evenly items-center space-y-6 lg:space-y-0 lg:space-x-4 bg-white shadow-xl rounded-lg mx-6 p-6'>
+            <div
+              className={`w-full lg:w-1/2 flex flex-col items-center p-6 rounded-lg shadow-md ${
+                mainScore >= 80
+                  ? "bg-green-50"
+                  : mainScore >= 50
+                  ? "bg-yellow-50"
+                  : "bg-red-50"
+              }`}
+            >
+              <CategoryCard
+                nobg={true}
+                title='Building Health'
+                score={mainScore}
+              />
+              <p className='mt-4 text-lg font-semibold text-gray-700'>
+                Overall Health Score
+              </p>
+            </div>
+            <div className='flex flex-col w-1/2  h-full'>
+              <p className='text-center my-6 mb-10 text-lg font-semibold'>
+                SUGGESTIONS
+              </p>
+              <div className='grid grid-cols-2 gap-6'>
+                {selectedIcon == "building1" &&
+                  aiSuggestions.map((suggestion) => (
+                    <div
+                      key={suggestion.id}
+                      className='flex items-center justify-center p-4 h-full bg-gray-50 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 cursor-pointer'
+                    >
+                      <p className='text-center text-gray-800 font-medium'>
+                        {suggestion.suggestion}
+                      </p>
+                    </div>
+                  ))}
 
-            {/* Carousel Section using Mantine */}
-            {dummySuggestions.map((suggestion) => (
-              <div
-                key={suggestion.id}
-                className=' flex items-center justify-center h-full my-10 bg-gray-50 rounded-lg text-black'
-              >
-                <p className=' w-1/2  '>
-                  {suggestion.icon} {suggestion.suggestion}
-                </p>
+                {selectedIcon == "building2" &&
+                  aiSuggestions2.map((suggestion) => (
+                    <div
+                      key={suggestion.id}
+                      className='flex items-center justify-center p-4 h-full bg-gray-50 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 cursor-pointer'
+                    >
+                      <p className='text-center text-gray-800 font-medium'>
+                        {suggestion.suggestion}
+                      </p>
+                    </div>
+                  ))}
               </div>
-            ))}
+            </div>
           </div>
 
           {/* Categories Section */}
@@ -156,7 +189,7 @@ const Dashboard: React.FC = () => {
         <CategoryModal
           title={selectedCategory.title}
           score={selectedCategory.score}
-          onClose={() => setModalVisible(false)} // Close modal on button click
+          onClose={() => setModalVisible(false)}
         />
       )}
     </main>

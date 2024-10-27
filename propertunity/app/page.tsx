@@ -26,7 +26,7 @@ const LoginPage = () => {
 
   return (
     <div className='flex h-screen'>
-      <div className='flex-1 bg-green-900 flex items-center justify-center'>
+      <div className='flex-1 bg-primary flex items-center justify-center'>
         <div className='text-center'>
           <h2 className='text-white text-5xl font-bold mb-4'>Propertunity</h2>
           <p className='text-white text-lg'>
@@ -37,7 +37,7 @@ const LoginPage = () => {
       </div>
 
       <div className='flex-1 bg-white flex flex-col justify-center p-8'>
-        <h1 className='text-3xl font-extrabold text-green-900 mb-4'>
+        <h1 className='text-3xl font-extrabold text-primary mb-4'>
           Welcome to Propertunity
         </h1>
         <p className='text-gray-600 text-lg mb-6'>
@@ -75,7 +75,7 @@ const LoginPage = () => {
 
           <button
             type='submit'
-            className='w-full bg-green-700 text-white px-6 py-3 rounded-md hover:bg-green-800 transition-all duration-300'
+            className='w-full bg-primary text-white px-6 py-3 rounded-md hover:bg-green-800 transition-all duration-300'
           >
             Login with Propertunity
           </button>
