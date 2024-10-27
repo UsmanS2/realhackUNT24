@@ -1,8 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from "axios";
-import dotenv from "dotenv";
 
-dotenv.config();
 
 async function getWeatherData(zipCode: string): Promise<any | null> {
     try {
