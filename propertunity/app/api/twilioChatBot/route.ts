@@ -1,10 +1,6 @@
-// Route Info:
-// - POST: /api/ticketChatBot
-// - Body should be JSON, {"message": "SOMETHING"}
-// - Repsonse is JSON, {"resp": "SOMETHING"}
-// - Call the request 1 time first with a blank message, and then continue the convo
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { MongoClient } from "mongodb";
+import twilio from "twilio";
 import { NextResponse } from "next/server";
 
 interface TicketData {
@@ -20,6 +16,11 @@ let Stage: string = "";
 const uri = process.env.MONGO_URL || "";
 const client = new MongoClient(uri);
 
+const accountSid = process.env.TWILIO_ACCOUNT_SID || "";
+const authToken = process.env.TWILIO_AUTH_TOKEN || "";
+const twilioClient = twilio(accountSid, authToken);
+
+// Utility to clean and parse a JSON string
 function cleanAndParseJsonString(input: string): TicketData {
     const cleanedString = input
         .replace(/```json/g, "")
@@ -32,12 +33,13 @@ function cleanAndParseJsonString(input: string): TicketData {
         jsonObject = JSON.parse(cleanedString);
     } catch (error) {
         console.error("Error parsing JSON:", error);
-        jsonObject = { title: "", description: "", priority: 1, date: "" }; 
+        jsonObject = { title: "", description: "", priority: 1, date: "" };
     }
 
     return jsonObject;
 }
 
+// Utility to format the current date
 function getCurrentDateFormatted(): string {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, "0");
@@ -48,7 +50,7 @@ function getCurrentDateFormatted(): string {
 
 export async function POST(request: Request) {
     try {
-        const { message } = await request.json();
+        const { message, From } = await request.json();
         let prompt: string = "";
 
         if (Stage === "") {
@@ -59,7 +61,7 @@ export async function POST(request: Request) {
             const genAI = new GoogleGenerativeAI(process.env.GEMINI_APIKEY || "");
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-            const aiprompt = `Here is some data about an issue a customer is facing. Rephrase everything, make the date into the format DD-MM-YYYY, and return as pure JSON with the keys title (string), description (string), priority (int 1-3, 1 is low priority, 3 is high), date (DD-MM-YYYY), and category (string, it can be plumbing, electrical, carpentry, HVAC, or applience, NOTHING ELSE. Phrase everything as it would be written in an official document. The current date is ${getCurrentDateFormatted()}.\n\n${data.join(
+            const aiprompt = `Here is some data about an issue a customer is facing. Rephrase everything, make the date into the format DD-MM-YYYY, and return as pure JSON with the keys title (string), description (string), priority (int 1-3, 1 is low priority, 3 is high), date (DD-MM-YYYY), and category (string, it can be plumbing, electrical, carpentry, HVAC, or appliance, NOTHING ELSE. Phrase everything as it would be written in an official document. The current date is ${getCurrentDateFormatted()}.\n\n${data.join(
                 "\n"
             )}`;
 
@@ -115,7 +117,13 @@ export async function POST(request: Request) {
             Stage = "confirmation";
         }
 
-        return NextResponse.json({ resp: prompt });
+        await twilioClient.messages.create({
+            body: prompt,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: From,
+        });
+
+        return NextResponse.json({ status: "Message sent successfully" });
     } catch (error) {
         console.error("Error handling request:", error);
         return NextResponse.json(
