@@ -6,7 +6,6 @@ import {
   MagnifyingGlassIcon,
   PhoneIcon,
   TicketIcon,
-  ChatBubbleOvalLeftEllipsisIcon,
 } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 
@@ -126,7 +125,7 @@ const Home: React.FC = () => {
         </div>
       </header>
 
-      <section className='w-screen h-screen flex flex-row'>
+      <section className='w-screen h-screen flex flex-row overflow-y-hidden'>
         <div className='h-full bg-gray-200 w-1/12 flex flex-col justify-center items-center cursor-pointer'>
           <div
             className={`${
@@ -179,7 +178,7 @@ const Home: React.FC = () => {
         </div>
 
         <div className='w-11/12 flex flex-row'>
-          <div className='h-full w-7/12 bg-gray-100 p-4 drop-shadow-lg'>
+          <div className='overflow-y-scroll w-7/12 bg-gray-100 p-4 drop-shadow-lg h-full'>
             {/* Search Bar */}
             <div className='bg-gray-300 rounded-md flex items-center p-2 mb-4'>
               <MagnifyingGlassIcon className='h-5 w-5 text-gray-500 mr-2' />
@@ -211,7 +210,7 @@ const Home: React.FC = () => {
           <div className='w-full h-full flex flex-col justify-between bg-gray-100 px-8 py-4'>
             {/* Chat Messages */}
             <div
-              className='flex-grow flex flex-col space-y-4 py-4 overflow-y-scroll h-48'
+              className='flex-grow flex flex-col space-y-4 py-4 overflow-y-scroll h-36'
               ref={chatRef}
             >
               <div className='text-center text-gray-500'>Chat Started</div>
