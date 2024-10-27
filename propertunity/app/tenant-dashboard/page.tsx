@@ -23,7 +23,7 @@ interface Ticket {
   opp_cost: number;
 }
 
-export const Home: React.FC = () => {
+const Home: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<string>("tickets");
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [input, setInput] = useState("");

@@ -6,7 +6,7 @@ import CategoryCard from "@/app/components/CategoryCard";
 import CategoryModal from "@/app/components/CategoryModal";
 import { dummySuggestions } from "@/constants/dummyData";
 
-export const Home: React.FC = () => {
+const Dashboard: React.FC = () => {
   const [selectedIcon, setSelectedIcon] = useState<string>("building1");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState({
@@ -163,4 +163,4 @@ export const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Dashboard;

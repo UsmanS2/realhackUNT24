@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export const LandingPage = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [submit, setSubmit] = useState(false);
@@ -94,4 +94,4 @@ export const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default LoginPage;
