@@ -2,7 +2,6 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { MongoClient } from "mongodb";
 import twilio from "twilio";
 import { NextResponse } from "next/server";
-import { NextApiRequest, NextApiResponse } from 'next';
 
 interface TicketData {
     title: string;
@@ -22,7 +21,6 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID || "";
 const authToken = process.env.TWILIO_AUTH_TOKEN || "";
 const twilioClient = twilio(accountSid, authToken);
 
-// Utility to clean and parse a JSON string
 function cleanAndParseJsonString(input: string): TicketData {
     const cleanedString = input
         .replace(/```json/g, "")
@@ -41,7 +39,6 @@ function cleanAndParseJsonString(input: string): TicketData {
     return jsonObject;
 }
 
-// Utility to format the current date
 function getCurrentDateFormatted(): string {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, "0");
@@ -50,12 +47,15 @@ function getCurrentDateFormatted(): string {
     return `${day}-${month}-${year}`;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {    const { Body, From } = req.body;
+export async function POST(request: Request) {
     try {
-        const { Body, From } = req.body;
-        console.log(Body);
+        const body = await request.text();
+        const params = new URLSearchParams(body);
+
+        const message = (params.get("message") || "").toString();
+        const From = params.get("From");
+        console.log(message, From)
         let prompt: string = "";
-        let message = Body;
 
         if (Stage === "") {
             prompt = "Please briefly describe the problem you're experiencing.";
@@ -123,7 +123,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await twilioClient.messages.create({
             body: prompt,
             from: process.env.TWILIO_PHONE_NUMBER,
-            to: From,
+            to: From || "",
         });
 
         return NextResponse.json({ status: "Message sent successfully" });
