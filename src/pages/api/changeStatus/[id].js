@@ -1,3 +1,10 @@
+// Route Info:
+// - PUT: /api/changeStatus/:TICKET_ID
+// - The ticket ID is passed in the URL, you can get it from /getTickets
+// - Repsonse is JSON
+// - Increases the progress of a ticket by 1
+// - If the ticket is at progress 1, it is moved to the Closed collection of tickets
+
 import { MongoClient, ObjectId } from 'mongodb';
 import dotenv from 'dotenv';
 

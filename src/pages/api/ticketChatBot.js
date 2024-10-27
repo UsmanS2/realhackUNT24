@@ -1,3 +1,9 @@
+// Route Info:
+// - POST: /api/ticketChatBot
+// - Body should be JSON, {"message": "SOMETHING"}
+// - Repsonse is JSON, {"resp": "SOMETHING"}
+// - Call the request 1 time first with a blank message, and then continue the convo
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from 'dotenv';
 import {MongoClient} from "mongodb";
