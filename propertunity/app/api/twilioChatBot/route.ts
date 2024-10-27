@@ -2,6 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { MongoClient } from "mongodb";
 import twilio from "twilio";
 import { NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from 'next';
 
 interface TicketData {
     title: string;
@@ -49,12 +50,12 @@ function getCurrentDateFormatted(): string {
     return `${day}-${month}-${year}`;
 }
 
-export async function POST(request: Request) {
-    const message = request.text()
-    console.log(message);
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {    const { Body, From } = req.body;
     try {
-        const { message, From } = await request.json();
+        const { Body, From } = req.body;
+        console.log(Body);
         let prompt: string = "";
+        let message = Body;
 
         if (Stage === "") {
             prompt = "Please briefly describe the problem you're experiencing.";
@@ -117,7 +118,6 @@ export async function POST(request: Request) {
                 Stage = "";
                 prompt = "Thank you! Your ticket has been created!";
             }
-            Stage = "confirmation";
         }
 
         await twilioClient.messages.create({

@@ -113,7 +113,6 @@ export async function POST(request: Request) {
                 Stage = "";
                 prompt = "Thank you! Your ticket has been created!";
             }
-            Stage = "confirmation";
         }
 
         return NextResponse.json({ resp: prompt });
