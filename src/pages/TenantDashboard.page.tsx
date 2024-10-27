@@ -50,7 +50,7 @@ export const TenantDashboard: React.FC = () => {
 
   return (
     <main className="w-screen h-screen flex flex-col">
-      <header className="w-screen text-2xl font-black bg-green-700 p-6 text-white flex flex-row justify-between">
+      <header className="w-screen text-2xl font-black bg-primary p-6 text-white flex flex-row justify-between">
         <p>CBRE</p>
         <img
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/98803ebf9c6a020ec2109cd98dc700fdd46181390409afc05f9f9b33517df39b?placeholderIfAbsent=true&apiKey=d61eac4b8283404b9101a9dc30f948de"
@@ -62,7 +62,7 @@ export const TenantDashboard: React.FC = () => {
         <div className="h-full bg-gray-200 w-1/12 flex flex-col justify-center items-center cursor-pointer">
           <div
             className={`${
-              selectedIcon === 'tickets' ? 'bg-green-700' : ''
+              selectedIcon === 'tickets' ? 'bg-primary' : ''
             } w-full flex items-center flex-row justify-center h-1/5`}
             onClick={() => handleIconClick('tickets')}
           >
@@ -72,7 +72,7 @@ export const TenantDashboard: React.FC = () => {
           </div>
           <div
             className={`${
-              selectedIcon === 'inbox' ? 'bg-green-700' : ''
+              selectedIcon === 'inbox' ? 'bg-primary' : ''
             } w-full flex items-center flex-row justify-center h-1/5`}
             onClick={() => handleIconClick('inbox')}
           >
@@ -82,7 +82,7 @@ export const TenantDashboard: React.FC = () => {
           </div>
           <div
             className={`${
-              selectedIcon === 'phone' ? 'bg-green-700' : ''
+              selectedIcon === 'phone' ? 'bg-primary' : ''
             } w-full flex items-center flex-row justify-center h-1/5`}
             onClick={() => handleIconClick('phone')}
           >
@@ -92,7 +92,7 @@ export const TenantDashboard: React.FC = () => {
           </div>
           <div
             className={`${
-              selectedIcon === 'settings' ? 'bg-green-700' : ''
+              selectedIcon === 'settings' ? 'bg-primary' : ''
             } w-full flex items-center flex-row justify-center h-1/5`}
             onClick={() => handleIconClick('settings')}
           >

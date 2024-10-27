@@ -1,179 +1,136 @@
 import React, { useState } from 'react';
-import {
-  BeakerIcon,
-  Cog6ToothIcon,
-  InboxIcon,
-  MagnifyingGlassIcon,
-  PhoneIcon,
-  TicketIcon,
-} from '@heroicons/react/24/solid';
+import { LightBulbIcon, PlusIcon } from '@heroicons/react/24/solid';
+import { Carousel } from '@mantine/carousel';
+import CategoryCard from '@/components/CategoryCard/CategoryCard';
+import CategoryModal from '@/components/CategoryModal/CategoryModal';
+import { dummySuggestions } from '../../constants/dummyData';
 
-const messages = [
-  {
-    id: 1,
-    content: 'I need assistance with renewing my lease. Can someone help me out?',
-    sender: 'user',
-    status: 'red',
-  },
-  {
-    id: 2,
-    content: 'The heating in my apartment isn’t working. Please send maintenance.',
-    sender: 'user',
-    status: 'yellow',
-  },
-  {
-    id: 3,
-    content: 'How can I update my payment method for rent?',
-    sender: 'user',
-    status: 'green',
-  },
-  {
-    id: 4,
-    content: 'My mailbox key isn’t working. How can I get a replacement?',
-    sender: 'user',
-    status: 'green',
-  },
-  {
-    id: 5,
-    content: 'Is there a way to check my utility usage online?',
-    sender: 'user',
-    status: 'green',
-  },
-];
+import '@mantine/carousel/styles.css';
 
 export const PMDashboard: React.FC = () => {
-  const [selectedIcon, setSelectedIcon] = useState<string>('tickets');
+  const [selectedIcon, setSelectedIcon] = useState<string>('building1');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState({ title: '', score: 0 });
 
   const handleIconClick = (icon: string) => {
     setSelectedIcon(icon);
   };
 
+  const categoryScores = [
+    { title: 'Plumbing', score: 80 },
+    { title: 'Electronics', score: 86 },
+    { title: 'Flooring', score: 60 },
+    { title: 'Maintenance', score: 86 },
+    { title: 'Lighting', score: 46 },
+    { title: 'Lighting', score: 76 },
+  ];
+
+  const categoryScores2 = [
+    { title: 'Plumbing', score: 87 },
+    { title: 'Electronics', score: 56 },
+    { title: 'Flooring', score: 66 },
+    { title: 'Maintenance', score: 36 },
+    { title: 'Lighting', score: 56 },
+    { title: 'Lighting', score: 76 },
+  ];
+
+  const handleCategoryClick = (categoryTitle: string, categoryScore: number) => {
+    setSelectedCategory({ title: categoryTitle, score: categoryScore });
+    setModalVisible(true);
+  };
+
   return (
     <main className="w-screen h-screen flex flex-col">
-      <header className="w-screen text-2xl font-black bg-green-700 p-6 text-white flex flex-row justify-between">
-        <p>CBRE</p>
+      {/* Header */}
+      <header className="w-screen text-2xl font-black bg-primary p-6 text-white flex flex-row justify-between">
+        <p className="">Propertunity</p>
         <img
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/98803ebf9c6a020ec2109cd98dc700fdd46181390409afc05f9f9b33517df39b?placeholderIfAbsent=true&apiKey=d61eac4b8283404b9101a9dc30f948de"
           alt="User icon"
           className="object-contain shrink-0 aspect-square w-[25px]"
         />
       </header>
-      <section className="w-screen h-screen flex flex-row">
-        <div className="h-full bg-gray-200 w-1/12 flex flex-col justify-center items-center cursor-pointer">
+
+      <section className="w-full h-full flex overflow-y-hidden">
+        {/* Sidebar */}
+        <div className="h-full bg-gray-200 w-2/12 flex flex-col justify-center items-center">
+          {['Building 1', 'Building 2', 'Building 3'].map((building, idx) => (
+            <div
+              key={idx}
+              className={`w-full flex items-center justify-center h-1/5 cursor-pointer ${
+                selectedIcon === `building${idx + 1}` ? 'bg-green-700 text-white' : 'text-black'
+              }`}
+              onClick={() => handleIconClick(`building${idx + 1}`)}
+            >
+              {building}
+            </div>
+          ))}
           <div
-            className={`${
-              selectedIcon === 'tickets' ? 'bg-green-700' : ''
-            } w-full flex items-center flex-row justify-center h-1/5`}
-            onClick={() => handleIconClick('tickets')}
+            className={`w-full flex items-center justify-center h-1/5 cursor-pointer ${
+              selectedIcon === 'building4' ? 'bg-green-700 text-white' : 'text-black'
+            }`}
+            onClick={() => handleIconClick('building4')}
           >
-            <TicketIcon
-              className={` size-10 ${selectedIcon === 'tickets' ? 'text-white' : 'text-black'}`}
-            />
-          </div>
-          <div
-            className={`${
-              selectedIcon === 'inbox' ? 'bg-green-700' : ''
-            } w-full flex items-center flex-row justify-center h-1/5`}
-            onClick={() => handleIconClick('inbox')}
-          >
-            <InboxIcon
-              className={`size-10 ${selectedIcon === 'inbox' ? 'text-white' : 'text-black'}`}
-            />
-          </div>
-          <div
-            className={`${
-              selectedIcon === 'phone' ? 'bg-green-700' : ''
-            } w-full flex items-center flex-row justify-center h-1/5`}
-            onClick={() => handleIconClick('phone')}
-          >
-            <PhoneIcon
-              className={`size-10 ${selectedIcon === 'phone' ? 'text-white' : 'text-black'}`}
-            />
-          </div>
-          <div
-            className={`${
-              selectedIcon === 'settings' ? 'bg-green-700' : ''
-            } w-full flex items-center flex-row justify-center h-1/5`}
-            onClick={() => handleIconClick('settings')}
-          >
-            <Cog6ToothIcon
-              className={`size-10 ${selectedIcon === 'settings' ? 'text-white' : 'text-black'}`}
-            />
+            <PlusIcon className="w-6 h-6" />
           </div>
         </div>
 
-        <div className="w-11/12 flex flex-row">
-          <div className="h-full w-7/12 bg-gray-100 p-4 drop-shadow-lg">
-            {/* Search Bar */}
-            <div className="bg-gray-300 rounded-md flex items-center p-2 mb-4">
-              <MagnifyingGlassIcon className="h-5 w-5 text-gray-500 mr-2" />
-              <input
-                type="text"
-                placeholder="Search"
-                className="bg-gray-300 focus:outline-none text-gray-600 w-full"
-              />
-            </div>
+        {/* Main Content */}
+        <div className="w-10/12 h-full flex flex-col bg-gray-100 overflow-y-scroll pb-20">
+          <p className="text-lg font-semibold my-3 mx-6">Home</p>
+          {/* Health Score Section */}
+          <div className="flex justify-evenly items-center space-x-4 bg-white shadow-lg mx-6">
+            <CategoryCard nobg={true} title="Building" score={72} />
 
-            {/* Message List */}
-            {messages.map((message) => (
+            {/* Carousel Section using Mantine */}
+            {dummySuggestions.map((suggestion) => (
               <div
-                className={`p-4 mb-4 rounded-md ${
-                  message.status === 'red'
-                    ? 'bg-red-400'
-                    : message.status === 'yellow'
-                      ? 'bg-yellow-300'
-                      : 'bg-green-500'
-                }`}
-                key={message.id}
+                key={suggestion.id}
+                className=" flex items-center justify-center h-full my-10 bg-gray-50 rounded-lg"
               >
-                {message.content}
+                <p className=" w-1/2  ">
+                  {suggestion.icon} {suggestion.suggestion}
+                </p>
               </div>
             ))}
           </div>
 
-          <div className="w-full h-full flex flex-col justify-between bg-gray-100 px-8 py-4">
-            {/* Chat Header */}
-            <div className="text-center text-gray-500">Chat Started</div>
+          {/* Categories Section */}
+          <div className="h-full p-6">
+            <p className="text-lg font-semibold mb-3">Categories</p>
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-10  h-full">
+              {selectedIcon == 'building1' &&
+                categoryScores.map((category, idx) => (
+                  <CategoryCard
+                    key={idx}
+                    title={category.title}
+                    score={category.score}
+                    onClick={() => handleCategoryClick(category.title, category.score)} // Show modal on click
+                  />
+                ))}
 
-            {/* Chat Messages */}
-            <div className="flex-grow flex flex-col space-y-4 py-4">
-              {/* Chatbot Message */}
-              <div className="flex">
-                <div className="bg-gray-300 p-4 rounded-lg w-1/3">Hello! How can I assist you?</div>
-              </div>
-
-              {/* User Message */}
-              <div className="flex justify-end">
-                <div className="bg-green-500 p-4 rounded-lg w-1/4">
-                  I need help with my account.
-                </div>
-              </div>
-
-              {/* Chatbot Message */}
-              <div className="flex">
-                <div className="bg-gray-300 p-4 rounded-lg w-1/3">
-                  Sure! Please provide your account number.
-                </div>
-              </div>
-            </div>
-
-            {/* Message Input Section */}
-            <div className="bg-gray-300 p-4 rounded-xl flex items-center">
-              <form className="w-full">
-                <label htmlFor="message" className="sr-only">
-                  Type your message
-                </label>
-                <input
-                  type="text"
-                  id="message"
-                  placeholder="MESSAGE"
-                  className="w-full p-3 text-gray-500 text-right rounded-lg bg-gray-200 focus:outline-none"
-                />
-              </form>
+              {selectedIcon == 'building2' &&
+                categoryScores2.map((category, idx) => (
+                  <CategoryCard
+                    key={idx}
+                    title={category.title}
+                    score={category.score}
+                    onClick={() => handleCategoryClick(category.title, category.score)} // Show modal on click
+                  />
+                ))}
             </div>
           </div>
         </div>
       </section>
+
+      {/* Modal */}
+      {modalVisible && (
+        <CategoryModal
+          title={selectedCategory.title}
+          score={selectedCategory.score}
+          onClose={() => setModalVisible(false)} // Close modal on button click
+        />
+      )}
     </main>
   );
 };
