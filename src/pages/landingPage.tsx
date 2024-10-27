@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
-// Main Application Entry Point (App.tsx)
-import { Route, BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-// Styled components for modern green and glass-like UI
 const LandingPageContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -29,7 +27,6 @@ const LoginButton = styled.button`
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s;
-
   &:hover {
     background-color: #45a049;
   }
@@ -46,9 +43,8 @@ const LandingPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Assuming user metadata contains roles
     if (isAuthenticated && user) {
-      const userRole = user['https://your-domain.com/roles'][0]; // Replace with your Auth0 roles path
+      const userRole = user['https://your-domain.com/roles']?.[0];
       setRole(userRole);
       if (userRole === 'Property Manager') {
         navigate('/property-manager-dashboard');
@@ -70,28 +66,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
-//import LandingPage from './landingPage';
-//import PropertyManagerDashboard from './PropertyManagerDashboard';
-//import TenantDashboard from './TenantDashboard';
-
-const App = () => {
-  return (
-    <Auth0Provider
-      domain="dev-hoempxots7snf8ar.us.auth0.com"
-      clientId="5k0OLC5Q7s5MHthaDYVFx7GynDOZl8nn"
-      redirectUri={window.location.origin}
-      audience="https://dev-hoempxots7snf8ar.us.auth0.com/api/v2/"
-    >
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/property-manager-dashboard" element={<PropertyManagerDashboard />} />
-          <Route path="/tenant-dashboard" element={<TenantDashboard />} />
-        </Routes>
-      </Router>
-    </Auth0Provider>
-  );
-};
-
-export default App;
