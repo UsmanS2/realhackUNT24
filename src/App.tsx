@@ -1,8 +1,12 @@
+
 import { Auth0Provider } from '@auth0/auth0-react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import PropertyManagerDashboard from './pages/PropertyManagerDashboard';
 import TenantDashboard from './pages/TenantDashboard';
+import '@mantine/core/styles.css';
+import './App.css';
+
 
 const App = () => {
   return (
