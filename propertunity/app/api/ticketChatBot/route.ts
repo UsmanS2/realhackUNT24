@@ -33,7 +33,7 @@ function cleanAndParseJsonString(input: string): TicketData {
         jsonObject = JSON.parse(cleanedString);
     } catch (error) {
         console.error("Error parsing JSON:", error);
-        jsonObject = { title: "", description: "", priority: 1, date: "" }; 
+        jsonObject = { title: "", description: "", priority: 1, date: "", category: "" };
     }
 
     return jsonObject;
