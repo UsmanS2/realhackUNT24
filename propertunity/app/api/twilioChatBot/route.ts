@@ -65,7 +65,7 @@ export async function POST(request: Request) {
             const genAI = new GoogleGenerativeAI(process.env.GEMINI_APIKEY || "");
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-            const aiprompt = `Here is some data about an issue a customer is facing. Rephrase everything, make the date into the format DD-MM-YYYY, and return as pure JSON with the keys title (string), description (string), priority (int 0-2, 0 is low priority, 2 is high), date (DD-MM-YYYY), and category (string, it can be plumbing, electrical, carpentry, HVAC, or appliance, NOTHING ELSE. Phrase everything as it would be written in an official document. The current date is ${getCurrentDateFormatted()}.\n\n${data.join(
+            const aiprompt = `Here is some data about an issue a customer is facing. Rephrase everything, make the date into the format DD-MM-YYYY, and return as pure JSON with the keys title (string), description (string), priority (int 0-2, 0 is low priority, 2 is high), date (DD-MM-YYYY), and category (string, it can be plumbing, electrical, carpentry, hvac, appliances, or space optimization, NOTHING ELSE. Phrase everything as it would be written in an official document. The current date is ${getCurrentDateFormatted()}.\n\n${data.join(
                 "\n"
             )}`;
 
