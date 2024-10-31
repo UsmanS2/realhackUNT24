@@ -2,6 +2,8 @@
 
 Propertunity is an AI-powered property management solution that helps managers prioritize maintenance tasks, predict future needs, and provide tenants with real-time communication.
 
+**HackUNT Devpost:** [Devpost](https://devpost.com/software/propertunity)
+
 ## Login Instructions
 
 - **Property Manager Portal:** Use any email ending with `@CBRE.com` and any password to log in.
