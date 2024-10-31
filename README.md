@@ -2,10 +2,12 @@
 
 Propertunity is an AI-powered property management solution that helps managers prioritize maintenance tasks, predict future needs, and provide tenants with real-time communication.
 
+## Login Instructions
 
-# Website
+- **Property Manager Portal:** Use any email ending with `@CBRE.com` and any password to log in.
+- **Tenant Portal:** Log in with any email and password.
 
-https://realhack-unt-24.vercel.app/
+**Access Propertunity:** [realhack-unt-24.vercel.app](https://realhack-unt-24.vercel.app/)
 
 ## Features
 
@@ -59,6 +61,4 @@ https://realhack-unt-24.vercel.app/
 
 Built with ❤️ by the Propertunity team.
 
-```
 
-```
